@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #f7f1e6;
+  --cream-deep: #efe4d2;
+  --ink: #2b1d14;
+  --ink-soft: #5c4636;
+  --accent: #c44b1f;
+  --accent-dark: #9a3514;
+  --leaf: #3f6b3a;
+  --card: #fffdf8;
+  --line: #e4d5c0;
+  --ok: #2f6b3a;
+  --warn: #b7791f;
+  --bad: #a33428;
+  --shadow: 0 14px 40px rgba(43, 29, 20, 0.08);
+  --background: var(--cream);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-leaf: var(--leaf);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-body);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(196, 75, 31, 0.08), transparent 28%),
+    radial-gradient(circle at top right, rgba(63, 107, 58, 0.08), transparent 24%),
+    linear-gradient(180deg, #fbf6ee 0%, var(--cream) 45%, #f3e8d7 100%);
+  color: var(--ink);
+  min-height: 100dvh;
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(100%, 480px);
+  margin-inline: auto;
+  min-height: 100dvh;
+  position: relative;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 1.4rem;
+  box-shadow: var(--shadow);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.1rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 999px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+
+.btn-secondary {
+  background: var(--cream-deep);
+  color: var(--ink);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-soft);
+}
+
+.btn-danger {
+  background: rgba(163, 52, 40, 0.12);
+  color: var(--bad);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.field label {
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: var(--ink-soft);
+}
+
+.field input,
+.field select,
+.field textarea {
+  min-height: 3rem;
+  border-radius: 1rem;
+  border: 1px solid var(--line);
+  background: white;
+  padding: 0.8rem 1rem;
+  color: var(--ink);
+  outline: none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(196, 75, 31, 0.15);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: var(--cream-deep);
+  color: var(--ink-soft);
+}
+
+.badge-ok {
+  background: rgba(47, 107, 58, 0.12);
+  color: var(--ok);
+}
+
+.badge-warn {
+  background: rgba(183, 121, 31, 0.14);
+  color: var(--warn);
+}
+
+.badge-bad {
+  background: rgba(163, 52, 40, 0.12);
+  color: var(--bad);
+}
+
+.bottom-nav {
+  position: sticky;
+  bottom: 0;
+  z-index: 40;
+  backdrop-filter: blur(14px);
+  background: rgba(255, 253, 248, 0.92);
+  border-top: 1px solid var(--line);
+  padding: 0.55rem 0.7rem calc(0.55rem + env(safe-area-inset-bottom));
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.45s ease both;
+}
+
+.animate-pop {
+  animation: pop 0.35s ease both;
+}
