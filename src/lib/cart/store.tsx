@@ -18,7 +18,6 @@ export type CartItem = {
   slug: string;
   name_he: string;
   name_en: string;
-  name_ru: string;
   image_path: string;
   quantity: number;
   unitPrice: number;
@@ -97,7 +96,6 @@ export function CartProvider({
             slug: product.slug,
             name_he: product.name_he,
             name_en: product.name_en,
-            name_ru: product.name_ru,
             image_path: product.image_path,
             quantity,
             unitPrice: price,

@@ -15,6 +15,8 @@ type Item = {
 export function BottomNav({ items }: { items: Item[] }) {
   const pathname = usePathname();
   const { dir } = useI18n();
+  // Six tabs (the manager) only fit a phone with tighter spacing.
+  const compact = items.length > 5;
 
   return (
     <nav className="bottom-nav" dir={dir}>
@@ -25,9 +27,9 @@ export function BottomNav({ items }: { items: Item[] }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`relative flex flex-col items-center gap-1 rounded-2xl px-2 py-2 text-xs font-bold transition ${
-                active ? "bg-cream-deep text-accent" : "text-ink-soft"
-              }`}
+              className={`relative flex min-w-0 flex-col items-center gap-1 rounded-2xl py-2 font-bold transition ${
+                compact ? "px-0.5 text-[11px]" : "px-2 text-xs"
+              } ${active ? "bg-cream-deep text-accent" : "text-ink-soft"}`}
             >
               <span className="text-lg leading-none">{item.icon}</span>
               <span>{item.label}</span>

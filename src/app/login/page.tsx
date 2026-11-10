@@ -89,7 +89,7 @@ export default function LoginPage() {
         </div>
 
         <div className="flex justify-center gap-2">
-          {(["he", "en", "ru"] as Locale[]).map((code) => (
+          {(["he", "en"] as Locale[]).map((code) => (
             <button
               key={code}
               type="button"

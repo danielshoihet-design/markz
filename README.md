@@ -5,7 +5,7 @@ Mobile-first spice marketplace for a manager, clients, and sellers.
 - **Clients** browse spices, choose quantity, and send orders (paid from credits)
 - **Sellers** send supply offers to the manager
 - **Manager** gets live inbox notifications, grants credits, creates accounts, edits prices, and views monthly buy/sell results
-- Languages: **Hebrew / English / Russian** (RTL for Hebrew)
+- Languages: **Hebrew / English** (RTL for Hebrew)
 - Backend: [Supabase](https://esqeimakebwtjaztbsuz.supabase.co)
 
 ## Setup

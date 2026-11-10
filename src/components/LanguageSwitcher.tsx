@@ -6,7 +6,6 @@ import type { Locale } from "@/lib/types";
 const options: { code: Locale; label: string }[] = [
   { code: "he", label: "עב" },
   { code: "en", label: "EN" },
-  { code: "ru", label: "RU" },
 ];
 
 export function LanguageSwitcher() {

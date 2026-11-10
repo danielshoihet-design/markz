@@ -4,7 +4,7 @@ import "./globals.css";
 
 const rubik = Rubik({
   variable: "--font-body",
-  subsets: ["latin", "latin-ext", "cyrillic", "hebrew"],
+  subsets: ["latin", "latin-ext", "hebrew"],
   weight: ["400", "500", "600", "700", "800"],
 });
 

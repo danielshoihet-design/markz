@@ -16,11 +16,10 @@ import { createClient } from "@/lib/supabase/client";
 import type { Locale } from "@/lib/types";
 
 function itemName(
-  item: { name_he: string; name_en: string; name_ru: string },
+  item: { name_he: string; name_en: string },
   locale: Locale,
 ) {
   if (locale === "he") return item.name_he;
-  if (locale === "ru") return item.name_ru;
   return item.name_en;
 }
 

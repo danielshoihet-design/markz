@@ -32,13 +32,13 @@ export async function updateSession(request: NextRequest) {
           request.cookies.set(name, value),
         );
         supabaseResponse = NextResponse.next({ request });
+        // The session cookie must stay readable by the browser's Supabase
+        // client (checkout, inbox actions, chat, live updates all run there),
+        // so it must not be marked HttpOnly when the server refreshes it.
         cookiesToSet.forEach(({ name, value, options }) =>
           supabaseResponse.cookies.set(name, value, {
             ...options,
-            httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            path: "/",
           }),
         );
       },
