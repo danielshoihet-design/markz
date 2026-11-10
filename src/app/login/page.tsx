@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { dictionaries } from "@/lib/i18n/dictionaries";
+import { isValidUsername, normalizeUsername, usernameToAuthEmail } from "@/lib/username";
 import type { Locale, UserRole } from "@/lib/types";
 
 function roleHome(role: UserRole) {
@@ -15,49 +16,69 @@ function roleHome(role: UserRole) {
 export default function LoginPage() {
   const router = useRouter();
   const [locale, setLocale] = useState<Locale>("he");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [lockUntil, setLockUntil] = useState(0);
+  const [failures, setFailures] = useState(0);
   const t = dictionaries[locale];
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
+    if (Date.now() < lockUntil) {
+      setError(t.errorGeneric);
+      return;
+    }
+    const userNorm = normalizeUsername(username);
+    if (!isValidUsername(userNorm)) {
+      setError(t.loginFailed);
+      return;
+    }
+
     setLoading(true);
     setError("");
     const supabase = createClient();
-    const { error: signError } = await supabase.auth.signInWithPassword({
-      email,
+    const { data: signIn, error: signError } = await supabase.auth.signInWithPassword({
+      email: usernameToAuthEmail(userNorm),
       password,
     });
     if (signError) {
-      setError(signError.message);
+      const nextFailures = failures + 1;
+      setFailures(nextFailures);
+      if (nextFailures >= 5) {
+        setLockUntil(Date.now() + 30_000);
+        setFailures(0);
+      }
+      setError(t.loginFailed);
       setLoading(false);
       return;
     }
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    // The sign-in response already carries the user, so there is no need to
+    // ask the Auth server again. The role lookup and the locale save are
+    // independent, so they go out together; the save is still awaited because
+    // the next page renders in the stored locale.
+    const user = signIn.user;
     if (!user) {
       setError(t.errorGeneric);
       setLoading(false);
       return;
     }
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
     localStorage.setItem("marketersz-locale", locale);
-    if (profile?.role) {
-      await supabase.from("profiles").update({ locale }).eq("id", user.id);
-    }
+    const [{ data: profile }] = await Promise.all([
+      supabase.from("profiles").select("role").eq("id", user.id).single(),
+      supabase.from("profiles").update({ locale }).eq("id", user.id),
+    ]);
+    setFailures(0);
     router.replace(roleHome((profile?.role as UserRole) || "client"));
     router.refresh();
   }
 
   return (
-    <main className="app-shell flex min-h-dvh flex-col justify-center px-5 py-8" dir={locale === "he" ? "rtl" : "ltr"}>
+    <main
+      className="app-shell flex min-h-dvh flex-col justify-center px-5 py-8"
+      dir={locale === "he" ? "rtl" : "ltr"}
+    >
       <div className="animate-pop card space-y-6 p-6">
         <div className="space-y-2 text-center">
           <p className="font-display text-sm font-bold tracking-[0.22em] text-accent uppercase">
@@ -82,16 +103,20 @@ export default function LoginPage() {
           ))}
         </div>
 
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={onSubmit} className="space-y-4" autoComplete="on">
           <div className="field">
-            <label htmlFor="email">{t.email}</label>
+            <label htmlFor="username">{t.username}</label>
             <input
-              id="email"
-              type="email"
-              autoComplete="email"
+              id="username"
+              type="text"
+              autoComplete="username"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              maxLength={254}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              spellCheck={false}
+              autoCapitalize="none"
+              placeholder="d1981"
             />
           </div>
           <div className="field">
@@ -101,6 +126,7 @@ export default function LoginPage() {
               type="password"
               autoComplete="current-password"
               required
+              maxLength={128}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

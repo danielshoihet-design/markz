@@ -165,7 +165,8 @@ export default async function ManagerReportPage({
             <div key={product.id} className="card flex items-center justify-between p-4">
               <span className="font-semibold">{productName(product, profile.locale)}</span>
               <span className="text-ink-soft">
-                {formatQty(qty, profile.locale)} {t.kg}
+                {formatQty(qty, profile.locale)}{" "}
+                {product.unit === "unit" ? t.unit : t.kg}
               </span>
             </div>
           ))

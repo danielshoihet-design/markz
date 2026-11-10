@@ -7,13 +7,16 @@ import { QuantityStepper } from "@/components/QuantityStepper";
 import { useCart } from "@/lib/cart/store";
 import { useI18n } from "@/lib/i18n/provider";
 import { formatMoney } from "@/lib/format";
+import { productQtyStep, productUnitLabel } from "@/lib/product-units";
 import { productName, type Product } from "@/lib/types";
 
 export function SupplyForm({ product }: { product: Product }) {
   const { t, locale } = useI18n();
   const cart = useCart();
   const router = useRouter();
-  const [qty, setQty] = useState(1);
+  const step = productQtyStep(product);
+  const unitLabel = productUnitLabel(product.unit, t);
+  const [qty, setQty] = useState(step);
   const [unitPrice, setUnitPrice] = useState(Number(product.buy_price));
   const [added, setAdded] = useState(false);
 
@@ -46,10 +49,17 @@ export function SupplyForm({ product }: { product: Product }) {
         </div>
       </div>
 
-      <QuantityStepper value={qty} onChange={setQty} unitLabel={t.kg} />
+      <QuantityStepper
+        value={qty}
+        onChange={setQty}
+        step={step}
+        unitLabel={unitLabel}
+      />
 
       <div className="field">
-        <label htmlFor="unitPrice">{t.price} (₪/{t.kg})</label>
+        <label htmlFor="unitPrice">
+          {t.price} (₪/{unitLabel})
+        </label>
         <input
           id="unitPrice"
           type="number"

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { LinkPending } from "@/components/LinkPending";
 import { formatMoney } from "@/lib/format";
 import { productName, type Locale, type Product } from "@/lib/types";
 
@@ -23,9 +24,10 @@ export function ProductCard({
   return (
     <Link
       href={href}
-      className="card animate-rise group overflow-hidden transition hover:-translate-y-0.5"
+      className="card animate-rise group relative overflow-hidden transition hover:-translate-y-0.5"
       style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}
     >
+      <LinkPending />
       <div className="relative aspect-square bg-cream-deep">
         <Image
           src={product.image_path}

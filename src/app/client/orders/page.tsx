@@ -66,7 +66,8 @@ export default async function ClientOrdersPage() {
                           : "—"}
                       </span>
                       <span className="font-semibold text-ink-soft">
-                        {formatQty(Number(item.quantity), profile.locale)} {t.kg}
+                        {formatQty(Number(item.quantity), profile.locale)}{" "}
+                        {(item.products as Product | null)?.unit === "unit" ? t.unit : t.kg}
                       </span>
                     </li>
                   ))}

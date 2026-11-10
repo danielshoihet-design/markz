@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LinkPending } from "@/components/LinkPending";
 import { useI18n } from "@/lib/i18n/provider";
 
 type Item = {
@@ -35,6 +36,7 @@ export function BottomNav({ items }: { items: Item[] }) {
                   {item.badge}
                 </span>
               ) : null}
+              <LinkPending />
             </Link>
           );
         })}

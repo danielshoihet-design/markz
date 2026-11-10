@@ -1,5 +1,6 @@
 import { CreateUserForm } from "@/components/CreateUserForm";
 import { GrantCreditsForm } from "@/components/GrantCreditsForm";
+import { SetPasswordForm } from "@/components/SetPasswordForm";
 import { RoleShell } from "@/components/RoleShell";
 import { requireRole } from "@/lib/auth";
 import { formatMoney } from "@/lib/format";
@@ -39,7 +40,7 @@ export default async function ManagerClientsPage() {
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="font-display text-lg font-bold">{client.full_name}</h3>
-                    <p className="text-sm text-ink-soft">{client.email}</p>
+                    <p className="text-sm text-ink-soft">@{client.username || "—"}</p>
                     <p className="mt-1 font-semibold text-ok">
                       {t.balance}: {formatMoney(Number(client.credit_balance), profile.locale)}
                     </p>
@@ -50,6 +51,7 @@ export default async function ManagerClientsPage() {
                   clientName={client.full_name}
                   currentDebt={Number(client.credit_balance)}
                 />
+                <SetPasswordForm userId={client.id} userName={client.full_name} />
               </article>
             ))
           )}

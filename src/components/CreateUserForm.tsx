@@ -9,7 +9,7 @@ export function CreateUserForm({ role }: { role: Extract<UserRole, "client" | "s
   const { t } = useI18n();
   const router = useRouter();
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [ok, setOk] = useState("");
@@ -23,7 +23,7 @@ export function CreateUserForm({ role }: { role: Extract<UserRole, "client" | "s
     const res = await fetch("/api/users/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fullName, email, password, role }),
+      body: JSON.stringify({ fullName, username, password, role }),
     });
     const json = await res.json();
     if (!res.ok) {
@@ -33,7 +33,7 @@ export function CreateUserForm({ role }: { role: Extract<UserRole, "client" | "s
     }
     setOk(t.userCreated);
     setFullName("");
-    setEmail("");
+    setUsername("");
     setPassword("");
     setLoading(false);
     router.refresh();
@@ -54,13 +54,18 @@ export function CreateUserForm({ role }: { role: Extract<UserRole, "client" | "s
         />
       </div>
       <div className="field">
-        <label htmlFor="email">{t.email}</label>
+        <label htmlFor="username">{t.username}</label>
         <input
-          id="email"
-          type="email"
+          id="username"
+          type="text"
           required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          minLength={2}
+          maxLength={32}
+          autoComplete="off"
+          spellCheck={false}
+          autoCapitalize="none"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
       </div>
       <div className="field">
@@ -69,10 +74,13 @@ export function CreateUserForm({ role }: { role: Extract<UserRole, "client" | "s
           id="password"
           type="password"
           required
-          minLength={6}
+          minLength={10}
+          maxLength={128}
+          autoComplete="new-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <p className="text-xs text-ink-soft">{t.passwordHint}</p>
       </div>
       {error ? <p className="text-sm font-semibold text-bad">{error}</p> : null}
       {ok ? <p className="text-sm font-semibold text-ok">{ok}</p> : null}

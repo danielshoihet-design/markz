@@ -8,6 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { productQtyStep } from "@/lib/product-units";
 import type { Product } from "@/lib/types";
 
 export type CartMode = "client" | "seller";
@@ -21,6 +22,8 @@ export type CartItem = {
   image_path: string;
   quantity: number;
   unitPrice: number;
+  unit: string;
+  qty_step: number;
 };
 
 type CartContextValue = {
@@ -71,6 +74,7 @@ export function CartProvider({
       const price =
         unitPrice ??
         (mode === "client" ? Number(product.sell_price) : Number(product.buy_price));
+      const step = productQtyStep(product);
       setItems((prev) => {
         const existing = prev.find((i) => i.productId === product.id);
         if (existing) {
@@ -80,6 +84,8 @@ export function CartProvider({
                   ...i,
                   quantity: Math.round((i.quantity + quantity) * 1000) / 1000,
                   unitPrice: price,
+                  unit: product.unit || "kg",
+                  qty_step: step,
                 }
               : i,
           );
@@ -95,6 +101,8 @@ export function CartProvider({
             image_path: product.image_path,
             quantity,
             unitPrice: price,
+            unit: product.unit || "kg",
+            qty_step: step,
           },
         ];
       });

@@ -7,6 +7,11 @@ import { QuantityStepper } from "@/components/QuantityStepper";
 import { useCart } from "@/lib/cart/store";
 import { useI18n } from "@/lib/i18n/provider";
 import { formatMoney } from "@/lib/format";
+import {
+  productPerUnitLabel,
+  productQtyStep,
+  productUnitLabel,
+} from "@/lib/product-units";
 import { createClient } from "@/lib/supabase/client";
 import type { Locale } from "@/lib/types";
 
@@ -99,7 +104,8 @@ export function CartView({ mode }: { mode: "client" | "seller" }) {
                 </button>
               </div>
               <p className="text-sm font-semibold text-accent">
-                {formatMoney(item.unitPrice, locale)} {t.perKg}
+                {formatMoney(item.unitPrice, locale)}{" "}
+                {productPerUnitLabel(item.unit || "kg", t)}
               </p>
             </div>
           </div>
@@ -107,12 +113,18 @@ export function CartView({ mode }: { mode: "client" | "seller" }) {
           <QuantityStepper
             value={item.quantity}
             onChange={(qty) => cart.updateQuantity(item.productId, qty)}
-            unitLabel={t.kg}
+            step={productQtyStep({
+              unit: item.unit || "kg",
+              qty_step: item.qty_step ?? 0.5,
+            })}
+            unitLabel={productUnitLabel(item.unit || "kg", t)}
           />
 
           {mode === "seller" ? (
             <div className="field">
-              <label>{t.price} (₪/{t.kg})</label>
+              <label>
+                {t.price} (₪/{productUnitLabel(item.unit || "kg", t)})
+              </label>
               <input
                 type="number"
                 min={0}

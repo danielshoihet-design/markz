@@ -8,6 +8,7 @@ export type Profile = {
   id: string;
   role: UserRole;
   full_name: string;
+  username: string | null;
   email: string | null;
   locale: Locale;
   credit_balance: number;
@@ -24,6 +25,7 @@ export type Product = {
   sell_price: number;
   buy_price: number;
   unit: string;
+  qty_step: number;
   active: boolean;
   sort_order: number;
 };

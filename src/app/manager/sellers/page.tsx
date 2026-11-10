@@ -1,4 +1,5 @@
 import { CreateUserForm } from "@/components/CreateUserForm";
+import { SetPasswordForm } from "@/components/SetPasswordForm";
 import { RoleShell } from "@/components/RoleShell";
 import { requireRole } from "@/lib/auth";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -35,7 +36,8 @@ export default async function ManagerSellersPage() {
             sellers.map((seller) => (
               <article key={seller.id} className="card animate-rise p-4">
                 <h3 className="font-display text-lg font-bold">{seller.full_name}</h3>
-                <p className="text-sm text-ink-soft">{seller.email}</p>
+                <p className="text-sm text-ink-soft">@{seller.username || "—"}</p>
+                <SetPasswordForm userId={seller.id} userName={seller.full_name} />
               </article>
             ))
           )}

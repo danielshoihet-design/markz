@@ -223,6 +223,31 @@ textarea {
   }
 }
 
+/* Tap feedback while the next page loads (see LinkPending). */
+.link-pending {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.link-pending.is-pending {
+  animation: link-pending-pulse 0.9s ease-in-out 0.1s infinite;
+}
+
+@keyframes link-pending-pulse {
+  0%,
+  100% {
+    opacity: 0.06;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
 .animate-rise {
   animation: rise-in 0.45s ease both;
 }

@@ -1,10 +1,13 @@
 import { ProductCard } from "@/components/ProductCard";
 import { RoleShell } from "@/components/RoleShell";
 import { requireRole } from "@/lib/auth";
+import { getDictionary } from "@/lib/i18n/dictionaries";
+import { priceSlashLabel } from "@/lib/product-units";
 import type { Product } from "@/lib/types";
 
 export default async function ClientCatalogPage() {
   const { supabase, profile } = await requireRole(["client"]);
+  const t = getDictionary(profile.locale);
   const { data } = await supabase
     .from("products")
     .select("*")
@@ -34,7 +37,7 @@ export default async function ClientCatalogPage() {
             locale={profile.locale}
             href={`/client/product/${product.id}`}
             price={Number(product.sell_price)}
-            priceLabel="/kg"
+            priceLabel={priceSlashLabel(product.unit, t)}
             index={index}
           />
         ))}

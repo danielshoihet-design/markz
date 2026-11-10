@@ -142,7 +142,8 @@ export function ManagerInbox({
                           : "—"}
                       </span>
                       <span className="font-semibold">
-                        {formatQty(Number(item.quantity), locale)} {t.kg} ·{" "}
+                        {formatQty(Number(item.quantity), locale)}{" "}
+                        {(item.products as Product | null)?.unit === "unit" ? t.unit : t.kg} ·{" "}
                         {formatMoney(Number(item.quantity) * Number(item.unit_price), locale)}
                       </span>
                     </li>
@@ -249,7 +250,8 @@ export function ManagerInbox({
                         : "—"}
                     </span>
                     <span>
-                      {formatQty(Number(item.quantity), locale)} {t.kg}
+                      {formatQty(Number(item.quantity), locale)}{" "}
+                      {(item.products as Product | null)?.unit === "unit" ? t.unit : t.kg}
                     </span>
                   </li>
                 ))}

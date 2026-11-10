@@ -645,14 +645,12 @@ values
   ('cinnamon', 'קינמון', 'Cinnamon', 'Корица', '/products/08-cinnamon-638f1eec-5c90-4ca5-adfe-bf419716ef3c.jpg', 60, 30, 8),
   ('cardamom', 'הל', 'Cardamom', 'Кардамон', '/products/09-cardamom-7578f214-bf4c-43f7-aa7e-440cc6a7be1a.jpg', 120, 70, 9),
   ('paprika', 'פפריקה', 'Paprika', 'Паприка', '/products/10-paprika-68e4284b-a8de-405d-8c8b-5f7038123fcd.jpg', 40, 20, 10),
-  ('lemon', 'לימון', 'Lemon', 'Лимон', '/products/11-lemon-82ec996c-1816-4719-813c-fc9f64221525.jpg', 18, 9, 11),
   ('lemon-juice', 'מיץ לימון', 'Lemon Juice', 'Лимонный сок', '/products/12-lemon-juice-03a811cd-b2bd-4ada-b123-51713b130e50.jpg', 22, 11, 12),
   ('lemon-peel', 'קליפת לימון', 'Lemon Peel', 'Цедра лимона', '/products/13-lemon-peel-4ba1c169-f2da-4990-9116-2f481bc4840d.jpg', 48, 24, 13),
   ('button-mushrooms', 'פטריות', 'Button Mushrooms', 'Шампиньоны', '/products/14-button-mushrooms-59cb112b-aa0b-4d47-8d19-9f628f6eea4e.jpg', 30, 15, 14),
   ('whole-black-peppercorns', 'פלפל שחור שלם', 'Whole Black Peppercorns', 'Чёрный перец горошком', '/products/15-whole-black-peppercorns-e8281f4d-fb96-4bca-b58d-56924898491f.jpg', 50, 25, 15),
   ('oregano', 'אורגנו', 'Oregano', 'Орегано', '/products/16-oregano-3470d961-2361-4b9d-99f5-bba16a75d717.jpg', 42, 21, 16),
-  ('cloves', 'ציפורן', 'Cloves', 'Гвоздика', '/products/17-cloves-bfcc6d92-6c72-4af9-8f54-8fbcd444155a.jpg', 70, 35, 17),
-  ('ginger', 'ג''ינג''ר', 'Ginger', 'Имбирь', '/products/18-ginger-32901993-90d9-4101-96fb-8d46034042ec.jpg', 38, 19, 18)
+  ('cloves', 'ציפורן', 'Cloves', 'Гвоздика', '/products/17-cloves-bfcc6d92-6c72-4af9-8f54-8fbcd444155a.jpg', 70, 35, 17)
 on conflict (slug) do update set
   name_he = excluded.name_he,
   name_en = excluded.name_en,
